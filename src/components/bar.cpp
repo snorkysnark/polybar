@@ -237,6 +237,9 @@ bar::bar(connection& conn, signal_emitter& emitter, const config& config, const 
   // Load foreground
   m_opts.foreground = parse_or_throw_color("foreground", m_opts.foreground);
 
+  // Load shadow color
+  m_opts.shadow_color = parse_or_throw_color("shadow-color", m_opts.shadow_color);
+
   // Load over-/underline
   auto line_color = m_conf.get(bs, "line-color", rgba{0xFFFF0000});
   auto line_size = m_conf.get(bs, "line-size", 0);
@@ -273,10 +276,16 @@ bar::bar(connection& conn, signal_emitter& emitter, const config& config, const 
   auto offsetx = m_conf.get(m_conf.section(), "offset-x", ""s);
   auto offsety = m_conf.get(m_conf.section(), "offset-y", ""s);
 
+  auto shadow_offsetx = m_conf.get(m_conf.section(), "shadow-offset-x", ""s);
+  auto shadow_offsety = m_conf.get(m_conf.section(), "shadow-offset-y", ""s);
+
   m_opts.size.w = geom_format_to_pixels(w, m_opts.monitor->w);
   m_opts.size.h = geom_format_to_pixels(h, m_opts.monitor->h);
   m_opts.offset.x = geom_format_to_pixels(offsetx, m_opts.monitor->w);
   m_opts.offset.y = geom_format_to_pixels(offsety, m_opts.monitor->h);
+
+  m_opts.shadow_offset.x = geom_format_to_pixels(shadow_offsetx, m_opts.monitor->w);
+  m_opts.shadow_offset.y = geom_format_to_pixels(shadow_offsety, m_opts.monitor->h);
 
   // Apply offsets
   m_opts.pos.x = m_opts.offset.x + m_opts.monitor->x;

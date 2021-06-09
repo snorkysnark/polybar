@@ -715,6 +715,10 @@ void renderer::render_text(const tags::context& ctxt, const string&& contents) {
   origin.x = m_rect.x + m_blocks[m_align].x;
   origin.y = m_rect.y + m_rect.height / 2.0;
 
+  cairo::abspos shadow_origin{};
+  shadow_origin.x = origin.x + m_bar.shadow_offset.x;
+  shadow_origin.y = origin.y + m_bar.shadow_offset.y;
+
   cairo::textblock block{};
   block.align = m_align;
   block.contents = contents;
@@ -722,6 +726,9 @@ void renderer::render_text(const tags::context& ctxt, const string&& contents) {
   block.x_advance = &m_blocks[m_align].x;
   block.y_advance = &m_blocks[m_align].y;
   block.bg_rect = cairo::rect{0.0, 0.0, 0.0, 0.0};
+
+  cairo::textblock shadow_block = block;
+  shadow_block.is_shadow = true;
 
   rgba bg = ctxt.get_bg();
 
@@ -738,6 +745,10 @@ void renderer::render_text(const tags::context& ctxt, const string&& contents) {
   }
 
   m_context->save();
+  *m_context << shadow_origin;
+  *m_context << m_bar.shadow_color;
+  *m_context << shadow_block;
+
   *m_context << origin;
   *m_context << m_comp_fg;
   *m_context << ctxt.get_fg();

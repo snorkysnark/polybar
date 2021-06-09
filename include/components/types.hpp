@@ -132,6 +132,9 @@ struct bar_settings {
   rgba foreground{0xFFFFFFFF};
   vector<rgba> background_steps;
 
+  rgba shadow_color{0xFF000000};
+  position shadow_offset{1, 1};
+
   line_settings underline{};
   line_settings overline{};
 

@@ -209,9 +209,11 @@ namespace cairo {
           // Get updated position
           position(&x, nullptr);
 
-          // Increase position
-          *t.x_advance += extents.x_advance;
-          *t.y_advance += extents.y_advance;
+          // Increase position (if not drawing shadow)
+          if (!t.is_shadow) {
+            *t.x_advance += extents.x_advance;
+            *t.y_advance += extents.y_advance;
+          }
 
           chars.erase(chars.begin(), end);
           break;

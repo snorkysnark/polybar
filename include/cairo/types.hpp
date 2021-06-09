@@ -71,6 +71,7 @@ namespace cairo {
     rect bg_rect;
     double* x_advance;
     double* y_advance;
+    bool is_shadow;
   };
 }  // namespace cairo
 
